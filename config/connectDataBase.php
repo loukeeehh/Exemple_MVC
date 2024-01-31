@@ -1,5 +1,5 @@
 <?php 
-
+// En cas d'erreur, on affiche le message de l'erreur attrapée 
 try {
     $strConnexion = "mysql:host=localhost;dbname=school";
     $pdo = new PDO($strConnexion,"louka", "root", [
