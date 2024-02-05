@@ -31,28 +31,37 @@ function createUser($pdo)
 function connectUser($pdo)
 {
     try {
+
         //définition de la requête select en utilisant la notion de paramètre
-        $query = 'select * from utilisateurs where loginUser = :loginUser and passWordUser = :passWordUser';
+        $query = 'select * from utilisateurs where loginUser = :loginUser and passWordUser';
+
         //préparation de la requête 
-        $connectUser = $pdo->prepare($query) ;
+        $connectUser = $pdo->prepare($query);
+
         //exécution en attribuant les valeurs récupérées dans le formulaire aux paramètres 
         $connectUser->execute([
             'loginUser' => $_POST["login"],
-            'passWordUser' => $_POST["mot_de_passe"]
+            'passWorUser' => $_POST["mot_de_passe"]
         ]);
-        //stockage des données trouvées dans la variable $user
+
+        //stockage des données trouvées dans la variable $user 
         $user = $connectUser->fetch();
-        if (!$user) {
-            return false;
+
+        if(!$user) {
+
+            return false;   
         }
+
         else {
+
             //ajout de celle-ci à la variable session
             $_SESSION["user"] = $user;
             return true;
         }
+        
     } catch (PDOEXCEPTION $e) {
         $message = $e->getMessage();
-        die($message);
+        die ($message);
     }
 }
 
@@ -60,19 +69,29 @@ function connectUser($pdo)
 
 function verifEmptyData()
 {
-
+    // parcours du tableau $_POST en recherchant les éléments vides ou munis d'espaces
     foreach ($_POST as $key => $value) {
-        //str-replace remplace une chaine par une autre dans une chaine de caractères donnée, ici un espace par le vide dans $value.
 
+        //str-replace remplace une chaine par une autre dans une chaine de caractères donnée, ici un espace par le vide dans $value.
         if (empty(str_replace(' ', '', $value))) {
+
             //on remplit un tableau associatif $messageError dont les clés sont les noms des champs avec un message rappelant que le champs concerné est vide.
             $messageError[$key] = "Votre" . $key . " est vide.";
         }
     }
 
+    // si le tableau $messageError est vide, on renverra false, sinon, on renvoie le tableau
     if (isset($messageError)) {
         return $messageError;
     } else {
         return false;
     }
 }
+
+
+
+
+
+
+
+
