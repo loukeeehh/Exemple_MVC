@@ -10,7 +10,7 @@
     if ($uri === "/index.php" || $uri === "/") {
         //récupérer toutes les données de la table school
         $schools = selectAllSchools($pdo);
-
+       
 
         $title = "Page d'accueil";
         $template = "views/pageAccueil.php";

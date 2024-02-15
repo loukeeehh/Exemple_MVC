@@ -89,6 +89,55 @@ function verifEmptyData()
 }
 
 
+//fonction updateUser. But : modifier les données encodées par l'utilisateur dans la table des utilisateurs.
+
+function updateUser($pdo)
+{
+    try {
+        //définition de la requête de mise à jour en utilisant la notion de paramètre 
+        //san oublier le critère ! pour ne pas modifier toutes les lignes de la table utilisateurs !
+
+        $query = 'update utilisateur set nomUser = :nomUser, prenomUser :prenomUser, passWordUser = :passWordUser, emailUser = :emailUser where id = id';
+        //préparation de la requête
+        $ajouteUser = $pdo-> prepare($query);
+        
+        //exécution en attribuant les valeurs récupérées dans le formulaire aux paramètres 
+        $ajouteUser->execute([
+            'nomUser' => $_POST['nom'],
+            'prenomUser' => $_POST['prenom'],
+            'passWordUser' => $_POST['mot_de_passe'],
+            'emailUser' => $_POST['email'],
+            'id' => $_SESSION ["user"] ->id //récupération de l'id de l'utilisateur en session actuellement connecté
+        ]);   
+            
+    } catch (PDOEXCEPTION $e) {
+        $message = $e->getMessage();
+        die($message);
+    }
+}
+
+
+//fonction updateSession. But : recharger les données actualisées de l'utilisateur dans la table des utilisateurs
+
+function updateSession($pdo)
+{
+    try {
+        $query = 'select * from utilisateurs where id = :id';
+        $selectUser = $pdo->prepare($query);
+        $selectUser-> execute ([
+            'id' => $_SESSION["user"]->id //récupération de l'id de l'utilisateur en session actuellement connecté
+        ]);
+
+        $user = $selectUser->fetch(); // pas fetchAll car on ne veut qu'une ligne 
+        $_SESSION["user"] = $user;
+
+    } catch (PDOEXCEPTION $e) {
+        $message = $e-> getMessage();
+        die($message);
+    }
+}
+
+
 
 
 

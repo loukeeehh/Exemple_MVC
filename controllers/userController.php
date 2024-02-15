@@ -65,6 +65,25 @@ elseif ($uri === "/inscription") {
 
 else if ($uri === "/updateProfil") {
 
+        if (isset($_POST['btnEnvoi'])) {
+            //vérification des données encodées 
+            $messageError = verifEmptyData();
+            
+            //S'il n' y a pas d'erreur        
+            if(!$messageError) {
+
+                //modifiction des données de l'utilisateur dans la base de données 
+                updateUser($pdo);
+                
+                //mise à jour de la variable session 
+                updateSession($pdo);
+
+                //redireciton vers la page profil
+                header('locartion:/profil');
+
+            }
+        }
+
     $title = "Mise à jour du profil";
     $template = "views/users/inscriptionOrEditProfile.php"; //chemin vers la vue demandée 
     require_once("views/base.php"); // appel de la page qui sera remplie avec la vue demandée
