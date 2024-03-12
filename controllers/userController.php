@@ -89,4 +89,11 @@ else if ($uri === "/updateProfil") {
     require_once("views/base.php"); // appel de la page qui sera remplie avec la vue demandée
 }
 
+else if ($uri === "/deleteProfil") {
+    deleteAllSchoolsFromUser ($pdo);                    //supprimer toutes les informations de la table école liées à l'utilisateur connecté
+    deleteUser($pdo);                                   //supprimer l'utilisateur de la table des utilisateurs
+    header("location:/deconnexion");                    // le déconnecter                        
+
+}   
+
 

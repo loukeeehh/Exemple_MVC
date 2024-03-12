@@ -137,6 +137,26 @@ function updateSession($pdo)
     }
 }
 
+/*
+Fonction DeleteUser
+
+BUT : supprimer l'utilisateur connecté de la table des utilisateurs
+IN : $pdo reprenant toutes les informations de connexion 
+*/
+function DeleteUser($pdo)
+{
+    try {
+        $query = 'delete from utilisateurs where id = :id';
+        $delUser = $pdo-> prepare($query);
+        $delUser->execute([
+            'id' => $_SESSION["user"]->id
+        ]);
+    } catch (PDOException $e) {
+        $message = $e->getMessage();
+        die($message);
+    }
+}
+
 
 
 
