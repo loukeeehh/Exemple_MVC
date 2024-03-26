@@ -90,6 +90,7 @@ else if ($uri === "/updateProfil") {
 }
 
 else if ($uri === "/deleteProfil") {
+    deleteOptionsSchoolFromUser($pdo);
     deleteAllSchoolsFromUser ($pdo);                    //supprimer toutes les informations de la table école liées à l'utilisateur connecté
     deleteUser($pdo);                                   //supprimer l'utilisateur de la table des utilisateurs
     header("location:/deconnexion");                    // le déconnecter                        
